@@ -2,12 +2,17 @@ import time
 import os
 import os.path
 import pathlib
+import contextlib
+
+my_path = os.path.abspath(os.path.dirname(__file__))
+
 # just read all chars in the cpp file and out out them.
 # it is ezer to write right?
 
 
 # path to the cpp file containing strings
 # cpp_path = "src/Kstrings.cpp"
+# relative path to main.py
 cpp_path_relative = True
 cpp_path = "example/Kstrings.cpp"
 
@@ -24,18 +29,16 @@ cpppath = cpp_path
 PDEFileFolderpath = PDEFileFolder_path
 PDEJavapath = PDEJava_path
 
-my_path = os.path.abspath(os.path.dirname(__file__))
-
 if (cpp_path_relative):
-    cpppath = os.path.join(my_path, cpp_path)
+    cpppath = str(pathlib.Path(my_path +"/" + cpp_path).resolve())
     pass
 
 if (PDEFileFolder_path_relative):
-    PDEFileFolderpath = os.path.join(my_path, PDEFileFolder_path)
+    PDEFileFolderpath = str(pathlib.Path(my_path +"/" + PDEFileFolder_path).resolve())
     pass
 
 if (PDEJava_path_relative):
-    PDEJavapath = os.path.join(my_path, PDEJava_path)
+    PDEJavapath = str(pathlib.Path(my_path +"/" + PDEJava_path).resolve())
     pass
 
 tmp = pathlib.PurePosixPath(PDEFileFolderpath)
