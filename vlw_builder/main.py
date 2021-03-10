@@ -292,12 +292,14 @@ if (__name__ == "__main__"):
     actiongroup = parser.add_mutually_exclusive_group(required=True)
     actiongroup.add_argument("-a", "--all", help="Do all the stuff, will copy vlw to data folder",action="store_true")
     actiongroup.add_argument("-y", "--yaml", help="Transfer yaml to source files only",action="store_true")
-    # parser.add_argument("-j","--jpg",help="save jpg file to check created fonts",action="store_true",required=False)   #TODO: need to modify .pde file
+    actiongroup.add_argument("-c","--clean",help="Clean vlw file in pde & data folder",action="store_true",required=False) 
     args = parser.parse_args()
     if (args.all):
         #balabala
         pass
     elif (args.yaml):
+        pass
+    elif (args.clean):
         pass
     else:
         print("How did we get here???")
@@ -305,6 +307,17 @@ if (__name__ == "__main__"):
         pass
 
     getFilesPaths()
+
+    if (args.clean):
+        try:
+            os.system("rm " + data_folder_path + "/" + "*.vlw")
+        except:
+            pass
+        try:
+            os.system("rm " + os.path.join(PDEFileFolderpath,"FontFiles") + "/" + "*.vlw")
+        except:
+            pass
+        os._exit(0)
 
     if (args.all or args.yaml):
         try:
@@ -373,75 +386,5 @@ if (__name__ == "__main__"):
             os._exit(1)
             pass
         pass
-    # return 0
-
-
-
-
-
-
-
-    
-
-    # unicodeList = []
-
-    # for i in readStr:
-    #     if (not i.isspace()):
-    #         if (ord(i) not in unicodeList):
-    #             unicodeList.append(ord(i))
-
-    # replacementText = "\nstatic final int[] specificUnicodes = {\n"
-    # for i in unicodeList:
-    #     replacementText = replacementText + str(i) + ", "
-    #     pass
-    # replacementText = replacementText[0:-2]
-    # replacementText = replacementText + "\n};\n"
-    # # print(replacementText)
-    # # print(len(unicodeList))
-    # # print(unicodeList)
-
-    # os.system("cp " + PDEFilepath + " " + PDEFilepath + ".old")
-
-    # try:
-    #     PDEFilefin = open(PDEFilepath,"r")
-    # except Exception as inst:
-    #     print(type(inst))    # the exception instance
-    #     print(inst.args)     # arguments stored in .args
-    #     print(inst)          # __str__ allows args to be printed directly,:
-    #     print('Fail to open pde file')
-    #     # time.sleep(1)
-    #     os._exit(1)
-    #     pass
-
-    # readStr = PDEFilefin.read()
-
-    # PDEFilefin.close()
-
-    # delimeterA = "//>>specificUnicodes Start"
-    # delimeterB = "//>>specificUnicodes end"
-
-    # leadingText = readStr.split(delimeterA)[0]
-    # trailingText = readStr.split(delimeterB)[1]
-
-    # newStr = leadingText + delimeterA + replacementText + delimeterB + trailingText
-    # # print(newStr)
-
-    # try:
-    #     PDEFilefin = open(PDEFilepath,"w")
-    # except Exception as inst:
-    #     print(type(inst))    # the exception instance
-    #     print(inst.args)     # arguments stored in .args
-    #     print(inst)          # __str__ allows args to be printed directly,:
-    #     print('Fail to open pde file as write')
-    #     # time.sleep(1)
-    #     os._exit(1)
-    #     pass
-
-    # PDEFilefin.write(newStr)
-    # PDEFilefin.close()
-    # print('PDE file wrote')
-
-    # print("running pde...")
-    # # os.system(PDEJavapath + " --sketch=" + PDEFileFolderpath.split("/")[0] + " --run")
-    # # result = os.popen('cat /etc/services').read()
-    # os.system(PDEJavapath + " --sketch=" + PDEFileFolderpath + " --run")
+    print("Finished Generating. Copying to data folder...")
+    os.system("cp " + os.path.join(PDEFileFolderpath,"FontFiles") + "/" + "*.vlw " + data_folder_path)
