@@ -7,7 +7,6 @@ Fonts:
     TTF-Num: 536    # Do NOT use TTF-Num and TTF-Name t same time
     Size: 34
     ExtraBlock: 0x0021, 0x007E, 0x00AB, 0x00FF # 2 is a pair. Always write in pairs!
-
     # Note: Files are generated according to their system name and size
     #       So, DO NOT use different names if they have same TTF-Num/TTF-Name and size
   - Name: ui-25

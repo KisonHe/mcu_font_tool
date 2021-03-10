@@ -189,7 +189,7 @@ void setup() {
 
   // Print the available fonts to the console as a list:
   String[] fontList = PFont.list();
-  printArray(fontList);
+  // printArray(fontList);
 
   // Save font list to file
   for (int x = 0; x < fontList.length; x++)
