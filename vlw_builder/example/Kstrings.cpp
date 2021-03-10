@@ -1,8 +1,20 @@
 
 #include "Kstrings.h"
 
+
 namespace Kstrings{
-    String Emsg1 = "hello world!";
-    String Cmsg1 = "我是中文";
-    String Jmsg1 = "こんにちは";
+Languages currentLanguage;
+//>>KstringsCPP Start
+const char* EnglishStrings[] = {"Save calibration?", "校准项目", "English", "Calibration", "", "", ""};
+const char* ChineseStrings[] = {"校准", "校准项目", "保存吗", "简体中文", "", "", ""};
+//>>KstringsCPP End
+    int setLanguage(Languages Language){
+        return 0;
+    }
+    const char* getStringByName(Names name){
+        return EnglishStrings[0];
+    }
 }
+
+
+// balabala

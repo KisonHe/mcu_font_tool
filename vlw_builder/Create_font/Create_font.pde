@@ -120,49 +120,57 @@ import java.awt.Desktop; // Required to allow sketch to open file windows
 // Use font number or name, -1 for fontNumber means use fontName below, a value >=0 means use system font number from list.
 // When the sketch is run it will generate a file called "systemFontList.txt" in the sketch folder, press Ctrl+K to see it.
 // Open the "systemFontList.txt" in a text editor to view the font files and reference numbers for your system.
+// << Use [Number] in brackets from the fonts listed.
 
-int fontNumber = 915; // << Use [Number] in brackets from the fonts listed.
+
+// Define the font size in points for the TFT_eSPI font file
+// Font size to use in the Processing sketch display window that pops up (can be different to above)
+//>>fontNumber Start
+int fontNumber = 754; 
+String fontName = "Final-Frontier";
+String fontType = ".ttf";
+int  fontSize = 20;
+int displayFontSize = 20;
+//>>fontNumber End
+//String fontType = ".otf";
+
+
 
 // OR use font name for ttf files placed in the "Data" folder or the font number seen in IDE Console for system fonts
 //                                                  the font numbers are listed when the sketch is run.
 //                |         1         2     |       Maximum filename size for SPIFFS is 31 including leading /
 //                 1234567890123456789012345        and added point size and .vlw extension, so max is 25
-String fontName = "Final-Frontier";  // Manually crop the filename length later after creation if needed
-                                     // Note: SPIFFS does NOT accept underscore in a filename!
-String fontType = ".ttf";
-//String fontType = ".otf";
+// Manually crop the filename length later after creation if needed
+// Note: SPIFFS does NOT accept underscore in a filename!
 
-
-// Define the font size in points for the TFT_eSPI font file
-int  fontSize = 20;
-
-// Font size to use in the Processing sketch display window that pops up (can be different to above)
-int displayFontSize = 20;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Next we specify which unicode blocks from the the Basic Multilingual Plane (BMP) are included in the final font file. //
 // Note: The ttf/otf font file MAY NOT contain all possible Unicode characters, refer to the fonts online documentation. //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static final int[] unicodeBlocks = {
-  // The list below has been created from the table here: https://en.wikipedia.org/wiki/Unicode_block
-  // Remove // at start of lines below to include that unicode block, different code ranges can also be specified by
-  // editting the start and end-of-range values. Multiple lines from the list below can be included, limited only by
-  // the final font file size!
 
-  // Block range,   //Block name, Code points, Assigned characters, Scripts
-  // First, last,   //Range is inclusive of first and last codes
-  0x0021, 0x007E, //Basic Latin, 128, 128, Latin (52 characters), Common (76 characters)
+// The list below has been created from the table here: https://en.wikipedia.org/wiki/Unicode_block
+// Remove // at start of lines below to include that unicode block, different code ranges can also be specified by
+// editting the start and end-of-range values. Multiple lines from the list below can be included, limited only by
+// the final font file size!
+
+// Block range,   //Block name, Code points, Assigned characters, Scripts
+// First, last,   //Range is inclusive of first and last codes
+// 0x0021, 0x007E, //Basic Latin, 128, 128, Latin (52 characters), Common (76 characters)
+//>>unicodeBlocks Start
+static final int[] unicodeBlocks = {
+  
   
 };
+//>>unicodeBlocks End
 
 // Here we specify particular individual Unicodes to be included (appended at end of selected range)
-
 //>>specificUnicodes Start
 static final int[] specificUnicodes = {
 35, 105, 110, 99, 108, 117, 100, 101, 34, 75, 115, 116, 114, 103, 46, 104, 97, 109, 112, 123, 83, 69, 49, 61, 111, 119, 33, 59, 67, 25105, 26159, 20013, 25991, 74, 12371, 12435, 12395, 12385, 12399, 125
 };
-//>>specificUnicodes end
+//>>specificUnicodes End
 
 //                       >>>>>>>>>> USER CONFIGURED PARAMETERS END HERE <<<<<<<<<<
 
@@ -285,7 +293,7 @@ void setup() {
       if ( (x + cwidth) > (width - gapx) ) break;
 
       // Draw the glyph to the screen
-      text(new String(Character.toChars(unicode)), x, y);
+      // text(new String(Character.toChars(unicode)), x, y);
 
       // Move cursor
       x += cwidth;

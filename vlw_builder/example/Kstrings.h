@@ -7,9 +7,12 @@
 #include <Arduino.h>
 
 namespace Kstrings{
-    extern String Emsg1;
-    extern String Cmsg1;
-    extern String Jmsg1;
+//>>KstringsH Start
+enum Names{CalibrationString, CalibrationItem, SaveCalibrationConfirm, Smile, RadioButtonEmpty, RadioButtonFilled, LanguageName};
+enum Languages{English, Chinese};
+//>>KstringsH End
+    int setLanguage(Languages Language);
+    const char* getStringByName(Names name);
 }
 
 #endif

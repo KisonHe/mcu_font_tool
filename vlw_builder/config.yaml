@@ -1,0 +1,69 @@
+Languages:  #language name will be used to create namespace
+  - English
+  - Chinese
+# Font, need to provide id from System_Font_List.txt or just name
+Fonts:
+  - Name: ui
+    TTF-Num: 233    # Do NOT use TTF-Num and TTF-Name t same time
+    Size: 34
+    ExtraBlock: 0x0021, 0x007E, 0x00AB, 0x00FF # 2 is a pair. Always write in pairs!
+
+  - Name: ui-25
+    TTF-Num: 233
+    Size: 25
+  - Name: mono-16
+    TTF-Name: sarasa-fixed-sc-regular.ttf
+    Size: 17
+  - Name: mono-big
+    TTF-Name: sarasa-fixed-sc-regular.ttf
+    Size: 50
+  - Name: icon
+    TTF-Name: MaterialIcons.ttf
+    Size: 40
+  - Name: icon-25
+    TTF-Name: MaterialIcons.ttf
+    Size: 27
+  - Name: icon-17
+    TTF-Name: MaterialIcons.ttf
+    Size: 17
+
+Strings:
+  - Name: CalibrationString
+    Content-Chinese:
+      Font: ui
+      Value: 校准
+    Content-English:
+      Font: ui
+      Font: mono-16   # One string might be used in multi Fonts
+      Value: Calibration
+  - Name: CalibrationItem
+    Content-all:    # Content-all, all languages
+      Font: ui-25
+      Value: 校准项目
+  - Name: SaveCalibrationConfirm
+    Content-all:    # Content-all
+      Font: ui-25
+      Value: 保存吗
+    Content-English:  # over-write in specific language
+      Font: ui
+      Value: Save calibration?
+  - Name: Smile
+    Middle: true
+    Content-all:
+      Font: icon
+      Value: "\ue7f2"
+  - Name: RadioButtonEmpty
+    Content-all:
+     Font: icon-25
+     Value: "\ue836"
+  - Name: RadioButtonFilled
+    Content-all:
+     Font: icon-25
+     Value: "\ue837"
+  - Name: LanguageName
+    Content-English:
+      Font: ui-25
+      Value: English
+    Content-Chinese:
+      Font: ui-25
+      Value: 简体中文
