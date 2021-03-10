@@ -127,11 +127,11 @@ import java.awt.Desktop; // Required to allow sketch to open file windows
 // Font size to use in the Processing sketch display window that pops up (can be different to above)
 String goodFontName = "";
 //>>fontNumber Start
-int fontNumber = 176;
+int fontNumber = 732;
 String fontName = "Final-Frontier";
 String fontType = ".ttf";
-int fontSize = 25;
-int displayFontSize = 25;//>>fontNumber End
+int fontSize = 50;
+int displayFontSize = 50;//>>fontNumber End
 //String fontType = ".otf";
 
 
@@ -315,9 +315,18 @@ void setup() {
   try {
     print("Saving to sketch FontFiles folder... ");
     goodFontName = fontName.replace(' ','-');
+    // a-123-b
+    while (goodFontName.indexOf("-") != -1){
+      String first = "";
+      String end = "";
+      // SPIFFS dont like '-'
+      first = goodFontName.substring(0,goodFontName.indexOf("-")); //"-" wont be first and last char
+      end = goodFontName.substring(goodFontName.indexOf("-") + 1,goodFontName.length());
+      goodFontName = first + end;
+    }
     if (goodFontName.length() > 20){
       // SPIFFS dont like filename too long
-      goodFontName = goodFontName.substring(goodFontName.length() - 20, goodFontName.length() - 1);
+      goodFontName = goodFontName.substring(goodFontName.length() - 20, goodFontName.length());
     }
     OutputStream output = createOutput("FontFiles/" + goodFontName + str(fontSize) + ".vlw");
     font.save(output);
@@ -335,6 +344,7 @@ void setup() {
     println("All done! Note: Rectangles are displayed for non-existant characters.");
   }
   catch(Exception e) {
+    print(e);
     println("Something is wrong");
   }
 }
