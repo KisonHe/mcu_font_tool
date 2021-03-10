@@ -125,6 +125,7 @@ import java.awt.Desktop; // Required to allow sketch to open file windows
 
 // Define the font size in points for the TFT_eSPI font file
 // Font size to use in the Processing sketch display window that pops up (can be different to above)
+String goodFontName = "";
 //>>fontNumber Start
 int fontNumber = 176;
 String fontName = "Final-Frontier";
@@ -313,8 +314,12 @@ void setup() {
   // creating file
   try {
     print("Saving to sketch FontFiles folder... ");
-
-    OutputStream output = createOutput("FontFiles/" + fontName + str(fontSize) + ".vlw");
+    goodFontName = fontName.replace(' ','-');
+    if (goodFontName.length() > 20){
+      // SPIFFS dont like filename too long
+      goodFontName = goodFontName.substring(goodFontName.length() - 20, goodFontName.length() - 1);
+    }
+    OutputStream output = createOutput("FontFiles/" + goodFontName + str(fontSize) + ".vlw");
     font.save(output);
     output.close();
 
@@ -329,7 +334,7 @@ void setup() {
     // System.err.println("All done! Note: Rectangles are displayed for non-existant characters.");
     println("All done! Note: Rectangles are displayed for non-existant characters.");
   }
-  catch(IOException e) {
-    println("Doh! Failed to create the file");
+  catch(Exception e) {
+    println("Something is wrong");
   }
 }

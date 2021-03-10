@@ -19,14 +19,14 @@ Fonts:
   - Name: FF-big
     TTF-Num: 746
     Size: 50
-  - Name: icon
-    TTF-Num: 176
-    # TTF-Name: Material Icons
-    Size: 40
-  - Name: icon-25
-    TTF-Num: 176
-    # TTF-Name: Material cons
-    Size: 25
+  # - Name: icon
+  #   TTF-Num: 176
+  #   # TTF-Name: Material Icons
+  #   Size: 40
+  # - Name: icon-25
+  #   TTF-Num: 176
+  #   # TTF-Name: Material cons
+  #   Size: 25
 
 Strings:
   - Name: Hello
