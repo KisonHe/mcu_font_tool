@@ -2,6 +2,7 @@
 *.vlw
 System_Font_List.txt
 .vscode
+_draft
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
