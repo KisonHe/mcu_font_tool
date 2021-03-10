@@ -4,28 +4,31 @@ Languages:  #language name will be used to create namespace
 # Font, need to provide id from System_Font_List.txt or just name
 Fonts:
   - Name: ui
-    TTF-Num: 233    # Do NOT use TTF-Num and TTF-Name t same time
+    TTF-Num: 536    # Do NOT use TTF-Num and TTF-Name t same time
     Size: 34
     ExtraBlock: 0x0021, 0x007E, 0x00AB, 0x00FF # 2 is a pair. Always write in pairs!
 
+    # Note: Files are generated according to their system name and size
+    #       So, DO NOT use different names if they have same TTF-Num/TTF-Name and size
   - Name: ui-25
-    TTF-Num: 233
+    TTF-Num: 536
     Size: 25
   - Name: mono-16
-    TTF-Name: sarasa-fixed-sc-regular.ttf
+    TTF-Num: 731
+    # TTF-Name: sarasa-fixed-sc-regular
     Size: 17
   - Name: mono-big
-    TTF-Name: sarasa-fixed-sc-regular.ttf
+    TTF-Num: 731
+    # TTF-Name: sarasa-fixed-sc-regular
     Size: 50
   - Name: icon
-    TTF-Name: MaterialIcons.ttf
+    TTF-Num: 731
+    # TTF-Name: MaterialIcons
     Size: 40
   - Name: icon-25
-    TTF-Name: MaterialIcons.ttf
+    TTF-Num: 731
+    # TTF-Name: MaterialIcons
     Size: 27
-  - Name: icon-17
-    TTF-Name: MaterialIcons.ttf
-    Size: 17
 
 Strings:
   - Name: CalibrationString

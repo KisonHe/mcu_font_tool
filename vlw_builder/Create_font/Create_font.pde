@@ -126,12 +126,11 @@ import java.awt.Desktop; // Required to allow sketch to open file windows
 // Define the font size in points for the TFT_eSPI font file
 // Font size to use in the Processing sketch display window that pops up (can be different to above)
 //>>fontNumber Start
-int fontNumber = 754; 
+int fontNumber = 731;
 String fontName = "Final-Frontier";
 String fontType = ".ttf";
-int  fontSize = 20;
-int displayFontSize = 20;
-//>>fontNumber End
+int fontSize = 27;
+int displayFontSize = 27;//>>fontNumber End
 //String fontType = ".otf";
 
 
@@ -160,15 +159,14 @@ int displayFontSize = 20;
 // 0x0021, 0x007E, //Basic Latin, 128, 128, Latin (52 characters), Common (76 characters)
 //>>unicodeBlocks Start
 static final int[] unicodeBlocks = {
-  
-  
+
 };
 //>>unicodeBlocks End
 
 // Here we specify particular individual Unicodes to be included (appended at end of selected range)
 //>>specificUnicodes Start
 static final int[] specificUnicodes = {
-35, 105, 110, 99, 108, 117, 100, 101, 34, 75, 115, 116, 114, 103, 46, 104, 97, 109, 112, 123, 83, 69, 49, 61, 111, 119, 33, 59, 67, 25105, 26159, 20013, 25991, 74, 12371, 12435, 12395, 12385, 12399, 125
+83, 97, 118, 101, 99, 108, 105, 98, 114, 116, 111, 110, 63, 26657, 20934, 39033, 30446, 69, 103, 115, 104, 20445, 23384, 21527, 31616, 20307, 20013, 25991, 67, 59378, 59446, 59447
 };
 //>>specificUnicodes End
 
@@ -293,7 +291,7 @@ void setup() {
       if ( (x + cwidth) > (width - gapx) ) break;
 
       // Draw the glyph to the screen
-      // text(new String(Character.toChars(unicode)), x, y);
+      text(new String(Character.toChars(unicode)), x, y);
 
       // Move cursor
       x += cwidth;
@@ -326,9 +324,10 @@ void setup() {
 
     // Open up the FontFiles folder to access the saved file
     String path = sketchPath();
-    Desktop.getDesktop().open(new File(path+"/FontFiles"));
+    // Desktop.getDesktop().open(new File(path+"/FontFiles"));
 
-    System.err.println("All done! Note: Rectangles are displayed for non-existant characters.");
+    // System.err.println("All done! Note: Rectangles are displayed for non-existant characters.");
+    println("All done! Note: Rectangles are displayed for non-existant characters.");
   }
   catch(IOException e) {
     println("Doh! Failed to create the file");

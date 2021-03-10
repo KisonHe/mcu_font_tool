@@ -81,6 +81,15 @@ fontDict = {}
 names = []
 languages = []
 
+# replace everything in raw between start-end with str2replace
+def replaceStrBetween(raw:str,str2replace:str,start:str,end:str)->str:
+    delimeterA = start
+    delimeterB = end
+    leadingText = raw.split(delimeterA)[0]
+    trailingText = raw.split(delimeterB)[1]
+    return leadingText + delimeterA + str2replace + delimeterB + trailingText
+
+
 def getAllFonts(file:dict):
     for i in file["Fonts"]:
         fonts.append(i["Name"])
@@ -283,7 +292,7 @@ if (__name__ == "__main__"):
     actiongroup = parser.add_mutually_exclusive_group(required=True)
     actiongroup.add_argument("-a", "--all", help="Do all the stuff, will copy vlw to data folder",action="store_true")
     actiongroup.add_argument("-y", "--yaml", help="Transfer yaml to source files only",action="store_true")
-    parser.add_argument("-j","--jpg",help="save jpg file to check created fonts",action="store_true",required=False)   #TODO: need to modify .pde file
+    # parser.add_argument("-j","--jpg",help="save jpg file to check created fonts",action="store_true",required=False)   #TODO: need to modify .pde file
     args = parser.parse_args()
     if (args.all):
         #balabala
@@ -308,11 +317,7 @@ if (__name__ == "__main__"):
             file = yaml.safe_load(stream)
             [cstr,hstr] = updateSourceFiles(file)
             # write .cpp file
-            delimeterA = "//>>KstringsCPP Start"
-            delimeterB = "//>>KstringsCPP End"
-            leadingText = readStr.split(delimeterA)[0]
-            trailingText = readStr.split(delimeterB)[1]
-            newStr = leadingText + delimeterA + "\n" + cstr + delimeterB + trailingText
+            newStr = replaceStrBetween(readStr,"\n" + cstr,"//>>KstringsCPP Start","//>>KstringsCPP End")
             CPPfin = open(cpppath,"w")
             CPPfin.write(newStr)
             CPPfin.close()
@@ -321,11 +326,7 @@ if (__name__ == "__main__"):
             Hfin = open(hpath,"r")
             readStr = Hfin.read()
             Hfin.close()
-            delimeterA = "//>>KstringsH Start"
-            delimeterB = "//>>KstringsH End"
-            leadingText = readStr.split(delimeterA)[0]
-            trailingText = readStr.split(delimeterB)[1]
-            newStr = leadingText + delimeterA + "\n" + hstr + delimeterB + trailingText
+            newStr = replaceStrBetween(readStr,"\n" + hstr,"//>>KstringsH Start","//>>KstringsH End")
             Hfin = open(hpath,"w")
             Hfin.write(newStr)
             Hfin.close()
@@ -349,29 +350,17 @@ if (__name__ == "__main__"):
 
             # modify pde file
             [fstr,bstr,ustr] = getPDEStr(font,file)
-            delimeterA = "//>>fontNumber Start"
-            delimeterB = "//>>fontNumber End"
-            leadingText = readStr.split(delimeterA)[0]
-            trailingText = readStr.split(delimeterB)[1]
-            newStr = leadingText + delimeterA + fstr + delimeterB + trailingText
-
-            delimeterA = "//>>unicodeBlocks Start"
-            delimeterB = "//>>unicodeBlocks End"
-            leadingText = newStr.split(delimeterA)[0]
-            trailingText = newStr.split(delimeterB)[1]
-            newStr = leadingText + delimeterA + bstr + delimeterB + trailingText
-
-            delimeterA = "//>>specificUnicodes Start"
-            delimeterB = "//>>specificUnicodes End"
-            leadingText = newStr.split(delimeterA)[0]
-            trailingText = newStr.split(delimeterB)[1]
-            newStr = leadingText + delimeterA + ustr + delimeterB + trailingText
+            newStr = replaceStrBetween(readStr,fstr,"//>>fontNumber Start","//>>fontNumber End")
+            newStr = replaceStrBetween(newStr,bstr,"//>>unicodeBlocks Start","//>>unicodeBlocks End")
+            newStr = replaceStrBetween(newStr,ustr,"//>>specificUnicodes Start","//>>specificUnicodes End")
+            print(fstr)
 
             PDEFilefin = open(PDEFilepath,"w")
             PDEFilefin.write(newStr)
             PDEFilefin.close()
             print('PDE file wrote ' + font)
             print("running pde for " + font + " ...")
+            os.system(PDEJavapath + " --sketch=" + PDEFileFolderpath + " --run")
 
         # print(newStr)
         try:
@@ -383,6 +372,8 @@ if (__name__ == "__main__"):
             # time.sleep(1)
             os._exit(1)
             pass
+        pass
+    # return 0
 
 
 
