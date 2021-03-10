@@ -126,11 +126,11 @@ import java.awt.Desktop; // Required to allow sketch to open file windows
 // Define the font size in points for the TFT_eSPI font file
 // Font size to use in the Processing sketch display window that pops up (can be different to above)
 //>>fontNumber Start
-int fontNumber = 731;
+int fontNumber = 176;
 String fontName = "Final-Frontier";
 String fontType = ".ttf";
-int fontSize = 27;
-int displayFontSize = 27;//>>fontNumber End
+int fontSize = 25;
+int displayFontSize = 25;//>>fontNumber End
 //String fontType = ".otf";
 
 
@@ -166,7 +166,7 @@ static final int[] unicodeBlocks = {
 // Here we specify particular individual Unicodes to be included (appended at end of selected range)
 //>>specificUnicodes Start
 static final int[] specificUnicodes = {
-83, 97, 118, 101, 99, 108, 105, 98, 114, 116, 111, 110, 63, 26657, 20934, 39033, 30446, 69, 103, 115, 104, 20445, 23384, 21527, 31616, 20307, 20013, 25991, 67, 59378, 59446, 59447
+69, 110, 103, 108, 105, 115, 104, 31616, 20307, 20013, 25991, 26085, 26412, 35486, 20320, 22909, 120, 99, 101, 112, 116, 67, 33, 12371, 12435, 12395, 12385, 12399, 72, 111, 84, 97, 83, 114
 };
 //>>specificUnicodes End
 

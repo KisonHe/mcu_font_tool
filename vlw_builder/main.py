@@ -45,6 +45,18 @@ PDEJava_path = "~/git_install_software/processing-3.5.4/processing-java"
 
 #      >>>>>>>>>> USER CONFIGURED PARAMETERS END HERE <<<<<<<<<<
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+
 # global vars
 file = ""
 cpppath = ""
@@ -108,6 +120,9 @@ def updateSourceFiles(file:dict())->list():
         for l in languages:
             tmplist_2 = []
             for i in file["Strings"]:
+                for lang in languages:
+                    if (not (("Content-all" in i) or ("Content-" + lang in i))):
+                        raise ValueError(f"{i} lack {lang} translation")
                 if ("Content-" + l in i):   # over-write in specific language
                     if (f == i["Content-" + l]["Font"]):
                         tmplist_2.append(i["Content-" + l]["Value"])
@@ -212,7 +227,11 @@ def getPDEStr(f:str,file:dict())->list():
         pass
     else:
         unicodeBlockStr = ""
+    if (("TTF-Num" in f2) and ("TTF-Name" in f2)):
+        raise ValueError("TTF-Name, TTF-Num can be only one!")
     if ("TTF-Num" in f2):
+        if (type(f2["TTF-Num"]) == type("")):
+            print(f"{bcolors.WARNING}Warning: TTF-Num seem to be a string?{bcolors.ENDC}")
         fontNumberStr = "\nint fontNumber = " + str(f2["TTF-Num"]) + ";\n" + "String fontName = \"Final-Frontier\";\n"
         pass
     elif ("TTF-Name" in f2):
@@ -315,7 +334,7 @@ if (__name__ == "__main__"):
             CPPfin.write(newStr)
             CPPfin.flush()
             CPPfin.close()
-            time.sleep(3)
+            # time.sleep(3)
 
             # write .h file
             Hfin = open(hpath,"r")
@@ -326,7 +345,7 @@ if (__name__ == "__main__"):
             Hfin.write(newStr)
             Hfin.flush()
             Hfin.close()
-            time.sleep(3) 
+            # time.sleep(3) 
 
         except Exception as inst:
             print(type(inst))    # the exception instance
@@ -355,7 +374,7 @@ if (__name__ == "__main__"):
             PDEFilefin.write(newStr)
             PDEFilefin.flush()
             PDEFilefin.close()
-            time.sleep(3) 
+            # time.sleep(3) 
             print('PDE file wrote ' + font)
             print("running pde for " + font + " ...")
             os.system(PDEJavapath + " --sketch=" + PDEFileFolderpath + " --run")

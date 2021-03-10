@@ -8,8 +8,8 @@
 
 namespace Kstrings{
 //>>KstringsH Start
-enum Names{CalibrationString, CalibrationItem, SaveCalibrationConfirm, Smile, RadioButtonEmpty, RadioButtonFilled, LanguageName};
-enum Languages{English, Chinese};
+enum Names{Hello, EnglishString, EnglishStringButChinese, LanguageName};
+enum Languages{English, Chinese, Japanese};
 //>>KstringsH End
     int setLanguage(Languages Language);
     const char* getStringByName(Names name);

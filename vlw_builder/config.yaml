@@ -1,6 +1,7 @@
 Languages:  #language name will be used to create namespace
   - English
   - Chinese
+  - Japanese
 # Font, need to provide id from System_Font_List.txt or just name
 Fonts:
   - Name: ui
@@ -12,56 +13,57 @@ Fonts:
   - Name: ui-25
     TTF-Num: 536
     Size: 25
-  - Name: mono-16
-    TTF-Num: 731
-    # TTF-Name: sarasa-fixed-sc-regular
+  - Name: FF-16
+    TTF-Num: 746  
     Size: 17
-  - Name: mono-big
-    TTF-Num: 731
-    # TTF-Name: sarasa-fixed-sc-regular
+  - Name: FF-big
+    TTF-Num: 746
     Size: 50
   - Name: icon
-    TTF-Num: 731
-    # TTF-Name: MaterialIcons
+    TTF-Num: 176
+    # TTF-Name: Material Icons
     Size: 40
   - Name: icon-25
-    TTF-Num: 731
-    # TTF-Name: MaterialIcons
-    Size: 27
+    TTF-Num: 176
+    # TTF-Name: Material cons
+    Size: 25
 
 Strings:
-  - Name: CalibrationString
-    Content-Chinese:
-      Font: ui
-      Value: 校准
-    Content-English:
-      Font: ui
-      Font: mono-16   # One string might be used in multi Fonts
-      Value: Calibration
-  - Name: CalibrationItem
+  - Name: Hello
+    Content-Chinese: 
+      Font: FF-16
+      Value: 你好
+    Content-English: 
+      Font: FF-big
+      Value: "Hello"
+    Content-Japanese: 
+      Font: FF-16
+      Value: こんにちは
+
+  - Name: EnglishString
+    Content-all:
+      Font: FF-big
+      Value: This is an English String
+  - Name: EnglishStringButChinese
     Content-all:    # Content-all, all languages
-      Font: ui-25
-      Value: 校准项目
-  - Name: SaveCalibrationConfirm
-    Content-all:    # Content-all
-      Font: ui-25
-      Value: 保存吗
-    Content-English:  # over-write in specific language
-      Font: ui
-      Value: Save calibration?
-  - Name: Smile
-    Middle: true
-    Content-all:
-      Font: icon
-      Value: "\ue7f2"
-  - Name: RadioButtonEmpty
-    Content-all:
-     Font: icon-25
-     Value: "\ue836"
-  - Name: RadioButtonFilled
-    Content-all:
-     Font: icon-25
-     Value: "\ue837"
+      Font: FF-big
+      Value: This is an English String
+    Content-Chinese:  # over-write in specific language
+      Font: FF-16
+      Value: Except Chinese!
+  # - Name: Smile
+  #   Middle: true
+  #   Content-all:
+  #     Font: icon
+  #     Value: "\ue7f2" # TODO, hex value
+  # - Name: RadioButtonEmpty
+  #   Content-all:
+  #    Font: icon-25
+  #    Value: "\ue836"
+  # - Name: RadioButtonFilled
+  #   Content-all:
+  #    Font: icon-25
+  #    Value: "\ue837"
   - Name: LanguageName
     Content-English:
       Font: ui-25
@@ -69,3 +71,7 @@ Strings:
     Content-Chinese:
       Font: ui-25
       Value: 简体中文
+    Content-Japanese:
+      Font: ui-25
+      Value: 日本語
+

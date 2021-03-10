@@ -5,11 +5,12 @@
 namespace Kstrings{
 Languages currentLanguage;
 //>>KstringsCPP Start
-const char* EnglishStrings[] = {"Save calibration?", "校准项目", "English", "Calibration", "", "", ""};
-const char* ChineseStrings[] = {"校准", "校准项目", "保存吗", "简体中文", "", "", ""};
+const char* EnglishStrings[] = {"English", "Hello", "This is an English String", "This is an English String"};
+const char* ChineseStrings[] = {"简体中文", "你好", "Except Chinese!", "This is an English String"};
+const char* JapaneseStrings[] = {"日本語", "こんにちは", "This is an English String", "This is an English String"};
 //>>KstringsCPP End
     int setLanguage(Languages Language){
-        return 0;
+        return 0;   // TODO
     }
     const char* getStringByName(Names name){
         return EnglishStrings[0];
