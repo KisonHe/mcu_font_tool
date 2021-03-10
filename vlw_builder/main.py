@@ -19,29 +19,6 @@ import yaml
 
 #      >>>>>>>>>> USER CONFIGURED PARAMETERS START HERE <<<<<<<<<<
 
-global data_folder_path_relative
-global data_folder_path
-global h_path_relative
-global h_path
-global cpp_path_relative 
-global cpp_path
-global PDEFileFolder_path_relative 
-global PDEFileFolder_path
-global PDEJava_path_relative
-global PDEJava_path
-global file 
-global cpppath 
-global hpath 
-global PDEFileFolderpath 
-global PDEJavapath 
-global my_path 
-global fonts 
-global fontDict 
-global names 
-global languages 
-global yaml_path_relative
-global yaml_path
-
 data_folder_path_relative = True
 data_folder_path = "../data"
 
@@ -77,6 +54,11 @@ PDEJavapath = ""
 my_path = ""
 PDEFilepath = ""
 fonts = []
+# example of fontDict
+# var = {  
+#         fontA : {"languageA":["str1","str2"],"languageB":["str1","str2"]},
+#         fontB : {"languageA":["str1"],"languageB":["str2","str3"]},
+#     }
 fontDict = {}
 names = []
 languages = []
@@ -220,27 +202,26 @@ def getPDEStr(f:str,file:dict())->list():
     unicodeBlockStr = ""
     fontNumberStr = ""
     specificUnicodesStr = ""
-    # if (args.jpg):
-    #         pass #TODO make this feature
-    # for f in fonts:
-    for f2 in file["Fonts"]:
-        if ("ExtraBlock" in f2):
-            unicodeBlockStr = unicodeBlockStr + f2["ExtraBlock"]
-            pass
-        else:
-            unicodeBlockStr = ""
-        if ("TTF-Num" in f2):
-            fontNumberStr = "\nint fontNumber = " + str(f2["TTF-Num"]) + ";\n" + "String fontName = \"Final-Frontier\";\n"
-            pass
-        elif ("TTF-Name" in f2):
-            fontNumberStr = "\nint fontNumber = -1;\n" + "String fontName = \"" + f2["TTF-Name"] + "\";\n"
-            pass
-        else:
-            raise ValueError("Missing TTF-Name or TTF-Num")
-        fontNumberStr = fontNumberStr + "String fontType = \".ttf\";\nint fontSize = " + str(f2["Size"]) + ";\nint displayFontSize = " + str(f2["Size"]) + ";"
-        print(fontNumberStr)
+    fontlist = file["Fonts"]
+    for font in fontlist:
+        if (font["Name"] == f):
+            f2 = font
+            break
+    if ("ExtraBlock" in f2):
+        unicodeBlockStr = unicodeBlockStr + f2["ExtraBlock"]
         pass
-        # pass
+    else:
+        unicodeBlockStr = ""
+    if ("TTF-Num" in f2):
+        fontNumberStr = "\nint fontNumber = " + str(f2["TTF-Num"]) + ";\n" + "String fontName = \"Final-Frontier\";\n"
+        pass
+    elif ("TTF-Name" in f2):
+        fontNumberStr = "\nint fontNumber = -1;\n" + "String fontName = \"" + f2["TTF-Name"] + "\";\n"
+        pass
+    else:
+        raise ValueError("Missing TTF-Name or TTF-Num")
+    fontNumberStr = fontNumberStr + "String fontType = \".ttf\";\nint fontSize = " + str(f2["Size"]) + ";\nint displayFontSize = " + str(f2["Size"]) + ";"
+    pass
     
     allStrs = []
     tmplist_3 = []
@@ -275,7 +256,6 @@ def getPDEStr(f:str,file:dict())->list():
     specificUnicodesStr = specificUnicodesStr + "\n};\n"
 
     unicodeBlockStr = "\nstatic final int[] unicodeBlocks = {\n" + unicodeBlockStr + "\n};\n"
-    # print(replacementText)
     return [fontNumberStr,unicodeBlockStr,specificUnicodesStr]
 
 
@@ -333,7 +313,9 @@ if (__name__ == "__main__"):
             newStr = replaceStrBetween(readStr,"\n" + cstr,"//>>KstringsCPP Start","//>>KstringsCPP End")
             CPPfin = open(cpppath,"w")
             CPPfin.write(newStr)
+            CPPfin.flush()
             CPPfin.close()
+            time.sleep(3)
 
             # write .h file
             Hfin = open(hpath,"r")
@@ -342,7 +324,9 @@ if (__name__ == "__main__"):
             newStr = replaceStrBetween(readStr,"\n" + hstr,"//>>KstringsH Start","//>>KstringsH End")
             Hfin = open(hpath,"w")
             Hfin.write(newStr)
+            Hfin.flush()
             Hfin.close()
+            time.sleep(3) 
 
         except Exception as inst:
             print(type(inst))    # the exception instance
@@ -366,11 +350,12 @@ if (__name__ == "__main__"):
             newStr = replaceStrBetween(readStr,fstr,"//>>fontNumber Start","//>>fontNumber End")
             newStr = replaceStrBetween(newStr,bstr,"//>>unicodeBlocks Start","//>>unicodeBlocks End")
             newStr = replaceStrBetween(newStr,ustr,"//>>specificUnicodes Start","//>>specificUnicodes End")
-            print(fstr)
 
             PDEFilefin = open(PDEFilepath,"w")
             PDEFilefin.write(newStr)
+            PDEFilefin.flush()
             PDEFilefin.close()
+            time.sleep(3) 
             print('PDE file wrote ' + font)
             print("running pde for " + font + " ...")
             os.system(PDEJavapath + " --sketch=" + PDEFileFolderpath + " --run")
