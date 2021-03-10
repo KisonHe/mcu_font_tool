@@ -166,7 +166,12 @@ def updateSourceFiles(file:dict())->list():
             replaceTextCpp = replaceTextCpp[0:-2]
             replaceTextCpp = replaceTextCpp + "};\n"
             pass
-
+    replaceTextCpp = replaceTextCpp + "const char** namelist[] = {"
+    for l in languages:
+        replaceTextCpp = replaceTextCpp + l + "Strings" + " ,"
+        pass
+    replaceTextCpp = replaceTextCpp[0:-2]
+    replaceTextCpp = replaceTextCpp + "};\n"
     return [replaceTextCpp,replaceTextH]
     pass
 

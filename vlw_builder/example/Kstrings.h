@@ -4,7 +4,7 @@
 // #include <string>
 // using std::string;
 
-#include <Arduino.h>
+// #include <Arduino.h>
 
 namespace Kstrings{
 //>>KstringsH Start
