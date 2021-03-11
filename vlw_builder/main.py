@@ -207,7 +207,16 @@ def updateSourceFiles(file:dict())->list():
         replaceTextCpp += "const char* Fonts[] = {"
         fontstrlist = []
         for n,f in enumerate(file["Fonts"]):
-            replaceTextCpp += ("\"" + f["Name"] + "\"")
+            size = f["Size"]
+            pos = txtreadStr.find(str(f["TTF-Num"])) + len(str(f["TTF-Num"])) + 2
+            posend = txtreadStr.find("\n",pos)
+            fontstr = txtreadStr[pos:posend]
+            fontstr = fontstr.replace(' ','')
+            fontstr = fontstr.replace('-','')
+            if (len(fontstr) > 20):
+                fontstr = fontstr[len(fontstr) - 20:len(fontstr)]
+            fontstr = fontstr + str(size)
+            replaceTextCpp += ("\"" + fontstr + "\"")
             replaceTextCpp += ", "
             pass
         replaceTextCpp = replaceTextCpp[0:-2]

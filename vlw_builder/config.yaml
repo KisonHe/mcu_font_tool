@@ -5,17 +5,22 @@ Languages:  #language name will be used to create namespace
 # Font, need to provide id from System_Font_List.txt or just name
 Fonts:
   - Name: Maintext
-    TTF-Num: 536    # Do NOT use TTF-Num and TTF-Name t same time
-    Size: 75
+    TTF-Num: 537    # Do NOT use TTF-Num and TTF-Name t same time
+    Size: 25
     ExtraBlock: 0x0021, 0x007E, 0x00AB, 0x00FF # 2 is a pair. Always write in pairs!
+  - Name: Bigtext
+    TTF-Num: 537    # Do NOT use TTF-Num and TTF-Name t same time
+    Size: 55
     # Note: Files are generated according to their system name and size
     #       So, DO NOT use different names if they have same TTF-Num/TTF-Name and size
 
   # - Name: icon
   #   TTF-Num: 176
+  #   # TTF-Name: Material Icons
   #   Size: 40
   # - Name: icon-25
   #   TTF-Num: 176
+  #   # TTF-Name: Material cons
   #   Size: 25
 
 Strings:
@@ -62,6 +67,6 @@ Strings:
       Font: Maintext
       Value: 简体中文
     Content-Japanese:
-      Font: Maintext
+      Font: Bigtext
       Value: 日本語
 

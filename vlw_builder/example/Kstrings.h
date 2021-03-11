@@ -19,7 +19,7 @@ enum Languages{English, Chinese, Japanese};
     // use a var to store font loaded
     // tft_espi lib's tft.loadFont seems wont check 
     // current loaded font, so a force update is optional
-    int setLanguageByName(TFT_eSPI &tft, Names name, int force = 0);
+    int setFontByName(TFT_eSPI &tft, Names name, int force = 0);
 }
 
 #endif
