@@ -323,11 +323,9 @@ def getPDEStr(f:str,file:dict())->list():
     
     allStrs = []
     tmplist_3 = []
-    for f in fontDict:
-        tmpdict = fontDict[f] 
-        for l in languages:
-            tmplist_3 = tmplist_3 + tmpdict[l]
-            pass
+    tmpdict = fontDict[f] 
+    for l in languages:
+        tmplist_3 = tmplist_3 + tmpdict[l]
         pass
     for s in tmplist_3:
         if (not s in allStrs):
