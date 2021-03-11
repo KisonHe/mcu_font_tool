@@ -155,11 +155,16 @@ def updateSourceFiles(file:dict())->list():
     replaceTextH = replaceTextH + "};\n"
 
     tmplist = []
+    mapAssiList = []
+    index = -1
     for l in languages:
+        mapAssiList.append([])
+        index += 1
         replaceTextCpp = replaceTextCpp + "const char* " + l + "Strings[] = {"
         for f in fontDict:
             for tmpstr in fontDict[f][l]:
                 replaceTextCpp = replaceTextCpp + "\"" + tmpstr + "\"" + ", "
+                mapAssiList[index].append(f)
                 pass
             pass
         if (replaceTextCpp.endswith(", ")): # incase first languages have no strings added at all
@@ -172,6 +177,66 @@ def updateSourceFiles(file:dict())->list():
         pass
     replaceTextCpp = replaceTextCpp[0:-2]
     replaceTextCpp = replaceTextCpp + "};\n"
+
+    if (os.path.exists(os.path.join(PDEFileFolderpath,"FontFiles/System_Font_List.txt"))):
+        txtfin = open(os.path.join(PDEFileFolderpath,"FontFiles/System_Font_List.txt"),"r")
+        txtreadStr = txtfin.read()
+        txtfin.close()
+        for n1,m in enumerate(mapAssiList):
+            for n2,m2 in enumerate(mapAssiList[n1]):
+                for n3,f in enumerate(file["Fonts"]):
+                    if (f["Name"] == m2):
+                        # size = f["Size"]
+                        # pos = txtreadStr.find(str(f["TTF-Num"])) + len(str(f["TTF-Num"])) + 2
+                        # posend = txtreadStr.find("\n",pos)
+                        # fontstr = txtreadStr[pos:posend]
+                        # fontstr = fontstr.replace(' ','')
+                        # fontstr = fontstr.replace('-','')
+                        # fontstr = fontstr[len(fontstr) - 20:len(fontstr)]
+                        # fontstr = fontstr + str(size)
+                        mapAssiList[n1][n2] = n3
+                        pass
+                        # mapAssiList[n1][n2] = f["TTF-Num"]
+                        
+                # #在这里直接找txt的name,整合size进去
+                # # file["Fonts"][name]
+                # txtreadStr.find("123")
+                pass
+            pass
+        languageStr = "uint8_t* map[] = {"
+        replaceTextCpp += "const char* Fonts[] = {"
+        fontstrlist = []
+        for n,f in enumerate(file["Fonts"]):
+            replaceTextCpp += ("\"" + f["Name"] + "\"")
+            replaceTextCpp += ", "
+            pass
+        replaceTextCpp = replaceTextCpp[0:-2]
+        replaceTextCpp += "};\n"
+        for n1,m in enumerate(mapAssiList):
+            replaceTextCpp += "uint8_t "
+            replaceTextCpp += (languages[n1] + "map[] = {")
+            languageStr += (languages[n1] + "map, ")
+            for n2,m2 in enumerate(mapAssiList[n1]):
+                replaceTextCpp += str(m2)
+                replaceTextCpp += ", "
+                pass
+            
+            replaceTextCpp = replaceTextCpp[0:-2]
+            replaceTextCpp += "};\n"
+            pass
+        languageStr = languageStr[0:-2]
+        languageStr += "};\n"
+        replaceTextCpp += languageStr
+        
+        pass
+
+    else:
+        print(f"{bcolors.WARNING}Warning: txt not exist, call again{bcolors.ENDC}")
+        # todo modify .pde to auto generate txt file
+
+    
+
+
     return [replaceTextCpp,replaceTextH]
     pass
 

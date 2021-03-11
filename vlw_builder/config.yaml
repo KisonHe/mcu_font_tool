@@ -4,52 +4,42 @@ Languages:  #language name will be used to create namespace
   - Japanese
 # Font, need to provide id from System_Font_List.txt or just name
 Fonts:
-  - Name: ui
+  - Name: Maintext
     TTF-Num: 536    # Do NOT use TTF-Num and TTF-Name t same time
-    Size: 34
+    Size: 75
     ExtraBlock: 0x0021, 0x007E, 0x00AB, 0x00FF # 2 is a pair. Always write in pairs!
     # Note: Files are generated according to their system name and size
     #       So, DO NOT use different names if they have same TTF-Num/TTF-Name and size
-  - Name: ui-25
-    TTF-Num: 536
-    Size: 25
-  - Name: FF-16
-    TTF-Num: 746  
-    Size: 17
-  - Name: FF-big
-    TTF-Num: 746
-    Size: 50
+
   # - Name: icon
   #   TTF-Num: 176
-  #   # TTF-Name: Material Icons
   #   Size: 40
   # - Name: icon-25
   #   TTF-Num: 176
-  #   # TTF-Name: Material cons
   #   Size: 25
 
 Strings:
   - Name: Hello
     Content-Chinese: 
-      Font: FF-16
+      Font: Maintext
       Value: 你好
     Content-English: 
-      Font: FF-big
+      Font: Maintext
       Value: "Hello"
     Content-Japanese: 
-      Font: FF-16
+      Font: Maintext
       Value: こんにちは
 
   - Name: EnglishString
     Content-all:
-      Font: FF-big
+      Font: Maintext
       Value: This is an English String
   - Name: EnglishStringButChinese
     Content-all:    # Content-all, all languages
-      Font: FF-big
+      Font: Maintext
       Value: This is an English String
     Content-Chinese:  # over-write in specific language
-      Font: FF-16
+      Font: Maintext
       Value: Except Chinese!
   # - Name: Smile
   #   Middle: true
@@ -66,12 +56,12 @@ Strings:
   #    Value: "\ue837"
   - Name: LanguageName
     Content-English:
-      Font: ui-25
+      Font: Maintext
       Value: English
     Content-Chinese:
-      Font: ui-25
+      Font: Maintext
       Value: 简体中文
     Content-Japanese:
-      Font: ui-25
+      Font: Maintext
       Value: 日本語
 
