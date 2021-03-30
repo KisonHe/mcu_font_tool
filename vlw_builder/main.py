@@ -166,22 +166,49 @@ def updateSourceFiles(file:dict())->list():
     replaceTextH = replaceTextH + "};\n"
 
     tmplist = []
-    mapAssiList = []
+    # mapAssiList = []
     index = -1
     for l in languages:
-        mapAssiList.append([])
+        mapstr = "uint8_t " + l + "map[] = {"
+        fontNameOfThisStr = ""
+        # mapAssiList.append([])
         index += 1
         replaceTextCpp = replaceTextCpp + "const char* " + l + "Strings[] = {"
-        for f in fontDict:
-            for tmpstr in fontDict[f][l]:
+        for tempvar in file["Strings"]:
+            if (("Content-" + l) in tempvar):
+                tmpstr = tempvar[("Content-" + l)]["Value"]
+                fontNameOfThisStr = tempvar[("Content-" + l)]["Font"]
                 replaceTextCpp = replaceTextCpp + "\"" + tmpstr + "\"" + ", "
-                mapAssiList[index].append(f)
+            elif (("Content-all") in tempvar):
+                tmpstr = tempvar["Content-all"]["Value"]
+                fontNameOfThisStr = tempvar["Content-all"]["Font"]
+                replaceTextCpp = replaceTextCpp + "\"" + tmpstr + "\"" + ", "
                 pass
-            pass
+            else:
+                raise ValueError(f"{i} lack {lang} translation")
+                pass
+            for num,tf in enumerate(file["Fonts"]):
+                if (tf["Name"] == fontNameOfThisStr):
+                    mapstr += (str(num) + ", ")
+                    break
+            else:
+                raise ValueError("Check if the Font name in your \"Strings\" is Correct")
+                pass
         if (replaceTextCpp.endswith(", ")): # incase first languages have no strings added at all
             replaceTextCpp = replaceTextCpp[0:-2]
             replaceTextCpp = replaceTextCpp + "};\n"
             pass
+        mapstr = mapstr[0:-2]
+        mapstr += "};\n"
+        replaceTextCpp += mapstr
+        pass
+    replaceTextCpp += "uint8_t* map[] = {"
+    for tl in languages:
+        replaceTextCpp += (l + "map, ")
+        pass
+    replaceTextCpp = replaceTextCpp[0:-2]
+    replaceTextCpp = replaceTextCpp + "};\n"
+    
     replaceTextCpp = replaceTextCpp + "const char** namelist[] = {"
     for l in languages:
         replaceTextCpp = replaceTextCpp + l + "Strings" + " ,"
@@ -193,31 +220,9 @@ def updateSourceFiles(file:dict())->list():
         txtfin = open(os.path.join(PDEFileFolderpath,"FontFiles/System_Font_List.txt"),"r")
         txtreadStr = txtfin.read()
         txtfin.close()
-        for n1,m in enumerate(mapAssiList):
-            for n2,m2 in enumerate(mapAssiList[n1]):
-                for n3,f in enumerate(file["Fonts"]):
-                    if (f["Name"] == m2):
-                        # size = f["Size"]
-                        # pos = txtreadStr.find(str(f["TTF-Num"])) + len(str(f["TTF-Num"])) + 2
-                        # posend = txtreadStr.find("\n",pos)
-                        # fontstr = txtreadStr[pos:posend]
-                        # fontstr = fontstr.replace(' ','')
-                        # fontstr = fontstr.replace('-','')
-                        # fontstr = fontstr[len(fontstr) - 20:len(fontstr)]
-                        # fontstr = fontstr + str(size)
-                        mapAssiList[n1][n2] = n3
-                        pass
-                        # mapAssiList[n1][n2] = f["TTF-Num"]
-                        
-                # #在这里直接找txt的name,整合size进去
-                # # file["Fonts"][name]
-                # txtreadStr.find("123")
-                pass
-            pass
-        languageStr = "uint8_t* map[] = {"
         replaceTextCpp += "const char* Fonts[] = {"
         fontstrlist = []
-        for n,f in enumerate(file["Fonts"]):
+        for f in (file["Fonts"]):
             size = f["Size"]
             pos = txtreadStr.find(str(f["TTF-Num"])) + len(str(f["TTF-Num"])) + 2
             posend = txtreadStr.find("\n",pos)
@@ -231,31 +236,12 @@ def updateSourceFiles(file:dict())->list():
             replaceTextCpp += ", "
             pass
         replaceTextCpp = replaceTextCpp[0:-2]
-        replaceTextCpp += "};\n"
-        for n1,m in enumerate(mapAssiList):
-            replaceTextCpp += "uint8_t "
-            replaceTextCpp += (languages[n1] + "map[] = {")
-            languageStr += (languages[n1] + "map, ")
-            for n2,m2 in enumerate(mapAssiList[n1]):
-                replaceTextCpp += str(m2)
-                replaceTextCpp += ", "
-                pass
-            
-            replaceTextCpp = replaceTextCpp[0:-2]
-            replaceTextCpp += "};\n"
-            pass
-        languageStr = languageStr[0:-2]
-        languageStr += "};\n"
-        replaceTextCpp += languageStr
-        
+        replaceTextCpp += "};\n"  
         pass
 
     else:
         print(f"{bcolors.WARNING}Warning: txt not exist, call again{bcolors.ENDC}")
         # todo modify .pde to auto generate txt file
-
-    
-
 
     return [replaceTextCpp,replaceTextH]
     pass

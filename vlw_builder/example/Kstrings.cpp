@@ -4,15 +4,15 @@ namespace Kstrings{
 Languages currentLanguage;
 uint8_t currentFont = 0xFF;
 //>>KstringsCPP Start
-const char* EnglishStrings[] = {"Hello", "This is an English String", "This is an English String", "English"};
-const char* ChineseStrings[] = {"你好", "This is an English String", "Except Chinese!", "简体中文"};
-const char* JapaneseStrings[] = {"こんにちは", "This is an English String", "This is an English String", "日本語"};
+const char* EnglishStrings[] = {"", "English"};
+uint8_t Englishmap[] = {2, 0};
+const char* ChineseStrings[] = {"", "简体中文"};
+uint8_t Chinesemap[] = {2, 0};
+const char* JapaneseStrings[] = {"", "日本語"};
+uint8_t Japanesemap[] = {2, 1};
+uint8_t* map[] = {Japanesemap, Japanesemap, Japanesemap};
 const char** namelist[] = {EnglishStrings ,ChineseStrings ,JapaneseStrings};
-const char* Fonts[] = {"NotoSansMonoCJKHK25", "NotoSansMonoCJKHK55"};
-uint8_t Englishmap[] = {0, 0, 0, 0};
-uint8_t Chinesemap[] = {0, 0, 0, 0};
-uint8_t Japanesemap[] = {0, 0, 0, 1};
-uint8_t* map[] = {Englishmap, Chinesemap, Japanesemap};
+const char* Fonts[] = {"toSerifCJKSCSemiBold25", "toSerifCJKSCSemiBold55", "MaterialIcons25"};
 //>>KstringsCPP End
     int setLanguage(Languages Language){
         currentLanguage = Language;

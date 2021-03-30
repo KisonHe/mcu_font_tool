@@ -10,7 +10,7 @@
 namespace Kstrings{
 
 //>>KstringsH Start
-enum Names{Hello, EnglishString, EnglishStringButChinese, LanguageName};
+enum Names{FingerPrint, LanguageName};
 enum Languages{English, Chinese, Japanese};
 //>>KstringsH End
     int setLanguage(Languages Language);
