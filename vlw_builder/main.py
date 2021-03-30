@@ -1,5 +1,16 @@
 #!/usr/bin/python3
 
+
+
+# Note:
+# Convert unicode codepoint to UTF8 hex in python 
+# https://stackoverflow.com/questions/867866/convert-unicode-codepoint-to-utf8-hex-in-python
+# >>> chr(int('fd9b', 16)).encode('utf-8')
+
+
+
+
+
 import time
 import os
 import os.path

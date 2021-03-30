@@ -30,7 +30,7 @@ Strings:
       Value: 你好
     Content-English: 
       Font: Maintext
-      Value: "Hello"
+      Value: Hello
     Content-Japanese: 
       Font: Maintext
       Value: こんにちは
@@ -47,18 +47,20 @@ Strings:
       Font: Maintext
       Value: Except Chinese!
   # - Name: Smile
-  #   Middle: true
   #   Content-all:
   #     Font: icon
-  #     Value: "\ue7f2" # TODO, hex value
+  #     Value: "e7f2" # TODO, hex value
+  #     Icon: true
   # - Name: RadioButtonEmpty
   #   Content-all:
   #    Font: icon-25
-  #    Value: "\ue836"
+  #    Value: "e836"
+  #     Icon: true  
   # - Name: RadioButtonFilled
   #   Content-all:
   #    Font: icon-25
-  #    Value: "\ue837"
+  #     Icon: true  
+  #    Value: "e837"
   - Name: LanguageName
     Content-English:
       Font: Maintext
