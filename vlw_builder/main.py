@@ -204,7 +204,7 @@ def updateSourceFiles(file:dict())->list():
         pass
     replaceTextCpp += "uint8_t* map[] = {"
     for tl in languages:
-        replaceTextCpp += (l + "map, ")
+        replaceTextCpp += (tl + "map, ")
         pass
     replaceTextCpp = replaceTextCpp[0:-2]
     replaceTextCpp = replaceTextCpp + "};\n"
