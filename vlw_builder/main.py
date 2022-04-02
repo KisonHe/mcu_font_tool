@@ -1,30 +1,16 @@
-#!/usr/bin/python3
-
-
-
-# Note:
-# Convert unicode codepoint to UTF8 hex in python 
-# https://stackoverflow.com/questions/867866/convert-unicode-codepoint-to-utf8-hex-in-python
-# >>> chr(int('fd9b', 16)).encode('utf-8')
-
-
-
-
-
-import time
 import os
 import os.path
 import pathlib
-import contextlib
+
 import argparse
 import yaml
 # ask if to create kstrings.cpp and .h if doesn't exist
 
 # Note: SPIFFS does NOT accept underscore in a filename!
 #       If font name has underscore, better change it manually
-# Note: If you need to format print to string then show it, 
+# Note: If you need to format print to string then show it,
 #       You SHOULD handle this by ADDING EXTRA ExtraBlock
-#       in the config.yaml 
+#       in the config.yaml
 # Note: It is your job to make sure string declared to use font a,
 #       is not actually using font b in the tft lib
 
@@ -36,14 +22,6 @@ data_folder_path = "../data"
 
 yaml_path_relative = True
 yaml_path = "config.yaml"
-
-# Note: path to the .h file containing strings
-h_path_relative = True
-h_path = "example/Kstrings.h"
-
-# Note: path to the .cpp file containing strings
-cpp_path_relative = True
-cpp_path = "example/Kstrings.cpp"
 
 # Note: Sketch name must same as parent folder, just like arduino
 #       example, your folder is Create_font, then your file should be Create_font/Create_font.pde
@@ -249,12 +227,11 @@ def updateSourceFiles(file:dict())->list():
 
 # process user defined path to useable path
 def getFilesPaths():
-    global data_folder_path_relative ,data_folder_path ,h_path_relative ,h_path ,cpp_path_relative  ,cpp_path ,PDEFileFolder_path_relative  ,PDEFileFolder_path ,PDEJava_path_relative ,PDEJava_path ,file  ,cpppath  ,hpath  ,PDEFileFolderpath  ,PDEJavapath  ,my_path  ,fonts  ,fontDict  ,names  ,languages 
+    global data_folder_path_relative ,data_folder_path ,h_path_relative ,h_path ,cpp_path_relative  ,PDEFileFolder_path_relative  ,PDEFileFolder_path ,PDEJava_path_relative ,PDEJava_path ,file  ,cpppath  ,hpath  ,PDEFileFolderpath  ,PDEJavapath  ,my_path  ,fonts  ,fontDict  ,names  ,languages
     global yaml_path_relative
     global yaml_path
     global PDEFilepath
     my_path = os.path.abspath(os.path.dirname(__file__))
-    cpppath = cpp_path
     PDEFileFolderpath = PDEFileFolder_path
     PDEJavapath = PDEJava_path
 
@@ -266,13 +243,6 @@ def getFilesPaths():
         data_folder_path = str(pathlib.Path(os.path.join(my_path,data_folder_path)).resolve())
         pass
 
-    if (cpp_path_relative):
-        cpppath = str(pathlib.Path(os.path.join(my_path,cpp_path)).resolve())
-        pass
-
-    if (h_path_relative):
-        hpath = str(pathlib.Path(os.path.join(my_path,h_path)).resolve())
-        pass
 
     if (PDEFileFolder_path_relative):
         PDEFileFolderpath = str(pathlib.Path(os.path.join(my_path,PDEFileFolder_path)).resolve())
@@ -341,14 +311,16 @@ def getPDEStr(f:str,file:dict())->list():
             pass
         pass
 
-    specificUnicodesStr = "\nstatic final int[] specificUnicodes = {\n"
+    # specificUnicodesStr = "\nstatic final int[] specificUnicodes = {\n"
+    specificUnicodesStr = ""
     for i in unicodeList:
-        specificUnicodesStr = specificUnicodesStr + str(i) + ", "
+        specificUnicodesStr = specificUnicodesStr + str(i) + ","
         pass
-    specificUnicodesStr = specificUnicodesStr[0:-2]
-    specificUnicodesStr = specificUnicodesStr + "\n};\n"
+    specificUnicodesStr = specificUnicodesStr[0:-1]
+    # specificUnicodesStr = specificUnicodesStr + "\n};\n"
 
-    unicodeBlockStr = "\nstatic final int[] unicodeBlocks = {\n" + unicodeBlockStr + "\n};\n"
+    # unicodeBlockStr = "\nstatic final int[] unicodeBlocks = {\n" + unicodeBlockStr + "\n};\n"
+    # unicodeBlockStr = unicodeBlockStr.replace(" ","")
     return [fontNumberStr,unicodeBlockStr,specificUnicodesStr]
 
 
@@ -394,32 +366,32 @@ if (__name__ == "__main__"):
 
     if (args.all or args.yaml):
         try:
-            os.system("cp " + cpppath + " " + cpppath + ".old")
-            os.system("cp " + hpath + " " + hpath + ".old")
-            CPPfin = open(cpppath,"r")
-            readStr = CPPfin.read()
-            CPPfin.close()
+            # os.system("cp " + cpppath + " " + cpppath + ".old")
+            # os.system("cp " + hpath + " " + hpath + ".old")
+            # CPPfin = open(cpppath,"r")
+            # readStr = CPPfin.read()
+            # CPPfin.close()
             stream = open(yaml_path, 'r')
             file = yaml.safe_load(stream)
             [cstr,hstr] = updateSourceFiles(file)
             # write .cpp file
-            newStr = replaceStrBetween(readStr,"\n" + cstr,"//>>KstringsCPP Start","//>>KstringsCPP End")
-            CPPfin = open(cpppath,"w")
-            CPPfin.write(newStr)
-            CPPfin.flush()
-            CPPfin.close()
+            # newStr = replaceStrBetween(readStr,"\n" + cstr,"//>>KstringsCPP Start","//>>KstringsCPP End")
+            # CPPfin = open(cpppath,"w")
+            # CPPfin.write(newStr)
+            # CPPfin.flush()
+            # CPPfin.close()
             # time.sleep(3)
 
             # write .h file
-            Hfin = open(hpath,"r")
-            readStr = Hfin.read()
-            Hfin.close()
-            newStr = replaceStrBetween(readStr,"\n" + hstr,"//>>KstringsH Start","//>>KstringsH End")
-            Hfin = open(hpath,"w")
-            Hfin.write(newStr)
-            Hfin.flush()
-            Hfin.close()
-            # time.sleep(3) 
+            # Hfin = open(hpath,"r")
+            # readStr = Hfin.read()
+            # Hfin.close()
+            # newStr = replaceStrBetween(readStr,"\n" + hstr,"//>>KstringsH Start","//>>KstringsH End")
+            # Hfin = open(hpath,"w")
+            # Hfin.write(newStr)
+            # Hfin.flush()
+            # Hfin.close()
+            # time.sleep(3)
 
         except Exception as inst:
             print(type(inst))    # the exception instance
@@ -440,29 +412,31 @@ if (__name__ == "__main__"):
 
             # modify pde file
             [fstr,bstr,ustr] = getPDEStr(font,file)
-            newStr = replaceStrBetween(readStr,fstr,"//>>fontNumber Start","//>>fontNumber End")
-            newStr = replaceStrBetween(newStr,bstr,"//>>unicodeBlocks Start","//>>unicodeBlocks End")
-            newStr = replaceStrBetween(newStr,ustr,"//>>specificUnicodes Start","//>>specificUnicodes End")
+            print(ustr)
+            # newStr = replaceStrBetween(readStr,fstr,"//>>fontNumber Start","//>>fontNumber End")
+            # newStr = replaceStrBetween(newStr,bstr,"//>>unicodeBlocks Start","//>>unicodeBlocks End")
+            # newStr = replaceStrBetween(newStr,ustr,"//>>specificUnicodes Start","//>>specificUnicodes End")
 
-            PDEFilefin = open(PDEFilepath,"w")
-            PDEFilefin.write(newStr)
-            PDEFilefin.flush()
-            PDEFilefin.close()
+
+            # PDEFilefin = open(PDEFilepath,"w")
+            # PDEFilefin.write(newStr)
+            # PDEFilefin.flush()
+            # PDEFilefin.close()
             # time.sleep(3) 
-            print('PDE file wrote ' + font)
-            print("running pde for " + font + " ...")
-            os.system(PDEJavapath + " --sketch=" + PDEFileFolderpath + " --run")
+            # print('PDE file wrote ' + font)
+            # print("running pde for " + font + " ...")
+            # os.system(PDEJavapath + " --sketch=" + PDEFileFolderpath + " --run")
 
         # print(newStr)
-        try:
-            pass
-        except Exception as inst:
-            print(type(inst))    # the exception instance
-            print(inst.args)     # arguments stored in .args
-            print(inst)          # __str__ allows args to be printed directly,:
-            # time.sleep(1)
-            os._exit(1)
-            pass
-        pass
-    print("Finished Generating. Copying to data folder...")
-    os.system("cp " + os.path.join(PDEFileFolderpath,"FontFiles") + "/" + "*.vlw " + data_folder_path)
+        # try:
+        #     pass
+        # except Exception as inst:
+        #     print(type(inst))    # the exception instance
+        #     print(inst.args)     # arguments stored in .args
+        #     print(inst)          # __str__ allows args to be printed directly,:
+        #     # time.sleep(1)
+        #     os._exit(1)
+        #     pass
+        # pass
+    # print("Finished Generating. Copying to data folder...")
+    # os.system("cp " + os.path.join(PDEFileFolderpath,"FontFiles") + "/" + "*.vlw " + data_folder_path)

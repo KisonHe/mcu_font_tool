@@ -127,7 +127,7 @@ import java.awt.Desktop; // Required to allow sketch to open file windows
 // Font size to use in the Processing sketch display window that pops up (can be different to above)
 String goodFontName = "";
 //>>fontNumber Start
-int fontNumber = 176;
+int fontNumber = 752;
 String fontName = "Final-Frontier";
 String fontType = ".ttf";
 int fontSize = 25;
@@ -167,7 +167,7 @@ static final int[] unicodeBlocks = {
 // Here we specify particular individual Unicodes to be included (appended at end of selected range)
 //>>specificUnicodes Start
 static final int[] specificUnicodes = {
-59661
+69, 110, 103, 108, 105, 115, 104, 25112, 29436, 31616, 20307, 20013, 25991, 111
 };
 //>>specificUnicodes End
 
