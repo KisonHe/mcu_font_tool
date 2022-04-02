@@ -10,9 +10,9 @@ const char* ChineseStrings[] = {"", "简体中文"};
 uint8_t Chinesemap[] = {2, 0};
 const char* JapaneseStrings[] = {"", "日本語"};
 uint8_t Japanesemap[] = {2, 1};
-uint8_t* map[] = {Japanesemap, Japanesemap, Japanesemap};
+uint8_t* map[] = {Englishmap, Chinesemap, Japanesemap};
 const char** namelist[] = {EnglishStrings ,ChineseStrings ,JapaneseStrings};
-const char* Fonts[] = {"toSerifCJKSCSemiBold25", "toSerifCJKSCSemiBold55", "MaterialIcons25"};
+const char* Fonts[] = {"SerifCJKSCExtraLight25", "SerifCJKSCExtraLight55", "Monospaced.plain25"};
 //>>KstringsCPP End
     int setLanguage(Languages Language){
         currentLanguage = Language;
