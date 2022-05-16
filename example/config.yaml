@@ -1,0 +1,5 @@
+FontConverter:
+  - Type: lvgl
+  - OutPut: bin # bin for lv_font_conv's bin output. cfile for lv_font_conv's c file output. dump for lv_font_conv's c file output. headers for generate get text table only.
+  - Comand: "node ./node_modules/lv_font_conv/lv_font_conv.js" # command to call converter
+
