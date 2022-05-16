@@ -7,7 +7,7 @@ Fonts:
     TTF: sarasa-gothic-sc-regular.ttf # path/name to ttf file
     Size: 34  # size passed to lv_font_conv
     Symbol: 0123456789:!., # Force adding these symbols. Useful if need to use things link printf. Symbols here are NOT ESCAPED. 
-    SymbolUnicode: 4E2D, 56FD # Force adding these symbols, Unicode version
+    SymbolUnicode: 0x4E2D, 0x56FD # Force adding these symbols, Unicode version, directly passed to lv_font_conv, so you can use things like 32-127,0x1F450 or 0x20-0x7F etc
     bpp: 4 # bpp passed to lv_font_conv， default 1
   - Name: ui-25
     TTF: sarasa-gothic-sc-regular.ttf

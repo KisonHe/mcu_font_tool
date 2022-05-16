@@ -1,0 +1,5 @@
+#!/bin/bash
+
+{% for font_complex in font_complexs %}
+{{ConverterCommand}} --font {{font_complex.TTF_Path}} {{font_complex.range_text}} --symbols "{{font_complex.symbol_text}}" {{font_complex.sub_pixel_text}} --size {{font_complex.size}} --bpp {{font_complex.bpp}} --format {{font_complex.format}} -o {{font_complex.filename}}
+{% endfor %}
