@@ -1,0 +1,43 @@
+/**
+ * Generated File, Do not modify
+ * 
+ */
+#include "stringtable.h"
+#include <stdint.h>
+{% for ptr in font_ptrs %}
+const fonttype* {{ptr}};{% endfor %}
+namespace strings
+{
+    Language_t CurrentLanguage = {{default_lang}}; //When generating, set default to first lang
+
+    static kh_textdata_t MainData[EndOfLanguages][EndOfTexts] = {
+{% for lang in language_strs %}
+        { {% for str in lang %}
+            {{str}},{% endfor %}
+        },{% endfor %}
+    };
+    
+    static const char* FontNames[] = {  //help to load font from file system {% for font_str in font_strs %}
+        "{{font_str}}",{% endfor %}
+    };
+
+    const char * kh_fonttool_get_text(ID id){
+        if (id >= EndOfTexts)
+            return nullptr;
+        return MainData[CurrentLanguage][id].text;
+    }
+
+    const fonttype * kh_fonttool_get_font(ID id){
+        if (id >= EndOfTexts)
+            return nullptr;
+        return MainData[CurrentLanguage][id].font;
+    }
+
+    int kh_fonttool_set_lang(Language_t lang){
+        if (lang >= EndOfLanguages)
+            return -1;
+        CurrentLanguage = lang; 
+        return 0; 
+    }
+  
+}

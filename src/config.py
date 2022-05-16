@@ -1,2 +1,2 @@
 class config:
-    
+    pass

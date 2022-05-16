@@ -35,12 +35,12 @@ namespace strings
     };
     
     static const char* FontNames[] = {  //help to load font from file system
-        "font_ui_ptr",
-        "font_ui_25_ptr",
-        "font_mono_25_ptr",
-        "font_mono_16_ptr",
-        "font_icon_ptr",
-        "font_icon_17_ptr"
+        "font_ui",
+        "font_ui_25",
+        "font_mono_25",
+        "font_mono_16",
+        "font_icon",
+        "font_icon_17"
     };
 
     const char * kh_fonttool_get_text(ID id){
