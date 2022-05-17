@@ -41,12 +41,23 @@ def font_str_to_font_ptr(fontstr:str)->str:
 
 if __name__ == "__main__":
     # TODO: phase args
-    # parser = argparse.ArgumentParser(description="Kison's mcu font tool")
-    # parser.add_argument("-c","--config",help="Path of config yaml, will use default config if not provided",required=False) 
-    # parser.add_argument("-s", "--source", help="Path of string yaml",required=True)
-    # parser.add_argument("-o", "--output", help="Path to output headers and cpp file",required=True)
+    parser = argparse.ArgumentParser(description="Kison's mcu font tool")
+    parser.add_argument("-c","--config",help="Directory of config and strings yaml, default ./config",required=False, default="./config") 
+    parser.add_argument("-t","--template",help="Directory of templates, default ./template",required=False, default="./template") 
+    parser.add_argument("-o", "--output", help="Directory to Generate header and cpp file, default ../../src/gui",required=False) 
+    # we assume user put this repo like this 
+    # .
+    # ├── include
+    # ├── lib
+    # ├── src
+    # │   └── gui
+    # ├── test
+    # └── tools
+    #     └── mcu_font_tool 
+    parser.add_argument("-b", "--bash-output", help="Directory to Generate converter bash file, default ./scripts",required=False, default="./scripts")
+    parser.add_argument("-r", "--run-bash", help="If run the generated converter bash file, default false",required=False, default=False)
     
-    # args = parser.parse_args()
+    args = parser.parse_args()
     # phase args end
     lvgl_font_converter_conf = conf_lvgl_font_converter_t()
     try:
@@ -55,7 +66,7 @@ if __name__ == "__main__":
         pass
     
     try:    # load the string yaml
-        yaml_path = "/home/kisonhe/githubPrjects/mcu_font_tool/example/strings.yaml" #TODO: Process the path
+        yaml_path = os.path.join(args.config, "strings.yaml")
         stream = open(yaml_path, 'r')
         string_yaml_dict = yaml.safe_load(stream)
         stream.close()
@@ -88,13 +99,13 @@ if __name__ == "__main__":
 
     # open h template and save generated header
     try:
-        string_template_file = open("example/h_stringtable_template.inja","r")
-        string_template_string = string_template_file.read()
-        string_template_file.close()
+        hstring_template_file = open(os.path.join(args.template,"h_stringtable_template.inja"),"r")
+        hstring_template_string = hstring_template_file.read()
+        hstring_template_file.close()
 
-        template = Template(string_template_string)
+        template = Template(hstring_template_string)
         header_render_result = template.render(languages=languages,ids=ids,fonts=fonts)
-        h_file = open("output/stringtable.h","w+")
+        h_file = open(os.path.join(args.output,"stringtable.h"),"w+")
         h_file.write(header_render_result)
         h_file.close()
         # print(header_render_result) #TODO save to file
@@ -132,13 +143,13 @@ if __name__ == "__main__":
 
     # open c template and save generated header
     try:
-        string_template_file = open("example/c_stringtable_template.inja","r")
-        string_template_string = string_template_file.read()
-        string_template_file.close()
+        cstring_template_file = open(os.path.join(args.template,"c_stringtable_template.inja"),"r")
+        cstring_template_string = cstring_template_file.read()
+        cstring_template_file.close()
 
-        template = Template(string_template_string)
+        template = Template(cstring_template_string)
         c_render_result = template.render(font_ptrs=font_ptrs,default_lang=default_lang,language_strs=language_strs,font_strs=font_strs)
-        c_file = open("output/stringtable.cpp","w+")
+        c_file = open(os.path.join(args.output,"stringtable.cpp"),"w+")
         c_file.write(c_render_result)
         c_file.close()
         pass
@@ -184,12 +195,12 @@ if __name__ == "__main__":
     
     # open bash template and save generated commands
     try:
-        bash_template_file = open("example/converter_template.inja","r")
+        bash_template_file = open(os.path.join(args.template,"converter_template.inja"),"r")
         bash_template_string = bash_template_file.read()
         bash_template_file.close()
         template = Template(bash_template_string)
         bash_render_result = template.render(ConverterCommand=lvgl_font_converter_conf.converter_command,font_complexs=font_complex_list)
-        bash_file = open("output/converter.bash","w+")
+        bash_file = open(os.path.join(args.bash_output,"converter.bash"),"w+")
         bash_file.write(bash_render_result)
         bash_file.close()
         pass
