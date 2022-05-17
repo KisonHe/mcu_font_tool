@@ -1,3 +1,21 @@
+# Suggest user use this tool like this 
+# .
+# ├── include
+# ├── lib
+# ├── src
+# │   └── gui
+# └── tools
+#     ├── mcu_font_config
+#     │   ├── config.yaml
+#     │   └── strings.yaml
+#     ├── mcu_font_template
+#     │   ├── converter_template.inja
+#     │   ├── c_stringtable_template.inja
+#     │   ├── h_stringtable_template.inja
+#     │   └── strings_template.inja
+#     └── mcu_font_tool         --> as submodule
+#         ├── main.py 
+
 import fontprocessing
 import endprocessing
 import os
@@ -7,8 +25,10 @@ import yaml
 import jinja2
 from jinja2 import Template
 from conf_lvgl_font_converter import conf_lvgl_font_converter_t
-#TODO make path use config
+import sys
+import subprocess
 #TODO the lvgl format
+#TODO Move default output paths to example. Default should not write higher dirs
 languages = []
 ids = []
 fonts = []
@@ -40,30 +60,33 @@ def font_str_to_font_ptr(fontstr:str)->str:
 
 
 if __name__ == "__main__":
-    # TODO: phase args
+    # phase args
     parser = argparse.ArgumentParser(description="Kison's mcu font tool")
-    parser.add_argument("-c","--config",help="Directory of config and strings yaml, default ./config",required=False, default="./config") 
-    parser.add_argument("-t","--template",help="Directory of templates, default ./template",required=False, default="./template") 
-    parser.add_argument("-o", "--output", help="Directory to Generate header and cpp file, default ../../src/gui",required=False) 
-    # we assume user put this repo like this 
-    # .
-    # ├── include
-    # ├── lib
-    # ├── src
-    # │   └── gui
-    # ├── test
-    # └── tools
-    #     └── mcu_font_tool 
-    parser.add_argument("-b", "--bash-output", help="Directory to Generate converter bash file, default ./scripts",required=False, default="./scripts")
-    parser.add_argument("-r", "--run-bash", help="If run the generated converter bash file, default false",required=False, default=False)
-    
+    parser.add_argument("-c","--config",help="Directory of config and strings yaml, default ../mcu_font_config TO main.py if also not found in config",required=False, default=os.path.join(os.path.dirname(__file__),"../mcu_font_config")) 
+    parser.add_argument("-t","--template",help="Directory of templates, default ../mcu_font_template TO main.py if also not found in config",required=False, default=os.path.join(os.path.dirname(__file__),"../mcu_font_template")) 
+    parser.add_argument("-o", "--output", help="Directory to Generate header and cpp file, default ../../src/gui TO main.py if also not found in config",required=False,default=os.path.join(os.path.dirname(__file__),"../../src/gui")) 
+    parser.add_argument("-b", "--bash-output", help="Directory to Generate converter bash file, default ./scripts TO main.py if also not found in config",required=False, default=os.path.join(os.path.dirname(__file__),"./scripts"))
+    parser.add_argument("-r", "--run-bash", help="If run the generated converter bash file, default false",required=False, action='store_true', default=False)
     args = parser.parse_args()
     # phase args end
-    lvgl_font_converter_conf = conf_lvgl_font_converter_t()
+
+    # load config.yaml 
+    lvgl_font_converter_conf = conf_lvgl_font_converter_t() # get lvgl_font_converter_conf
     try:
-        pass # TODO: load config.yaml here
-    except:
-        pass
+        yaml_path = os.path.join(args.config, "config.yaml")
+        stream = open(yaml_path, 'r')
+        config_yaml_dict = yaml.safe_load(stream)
+        stream.close()
+        if (lvgl_font_converter_conf.load_settings_from_yaml(config_yaml_dict,args) != 0):
+            raise ValueError
+        pass 
+    except Exception as e: 
+        print(e)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+        print("Using default settings...")
+        lvgl_font_converter_conf.init_values()
     
     try:    # load the string yaml
         yaml_path = os.path.join(args.config, "strings.yaml")
@@ -94,8 +117,12 @@ if __name__ == "__main__":
             font_text_dict[i["Name"]] = ""  #init the font_text_dict
             pass
         pass # TODO: load config.yaml here
-    except:
-        pass
+    except Exception as e: 
+        print(e)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+        os._exit(-1)
 
     # open h template and save generated header
     try:
@@ -105,13 +132,18 @@ if __name__ == "__main__":
 
         template = Template(hstring_template_string)
         header_render_result = template.render(languages=languages,ids=ids,fonts=fonts)
+        os.makedirs(os.path.dirname(os.path.join(args.output,"stringtable.h")), exist_ok=True)
         h_file = open(os.path.join(args.output,"stringtable.h"),"w+")
         h_file.write(header_render_result)
         h_file.close()
         # print(header_render_result) #TODO save to file
         pass
-    except:
-        pass
+    except Exception as e: 
+        print(e)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+        os._exit(-1)
     
     try: #generate language_strs
         for lang in string_yaml_dict["Languages"]: # outer loop
@@ -138,8 +170,12 @@ if __name__ == "__main__":
                 pass
             language_strs.append(strlist)
         pass
-    except:
-        pass
+    except Exception as e: 
+        print(e)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+        os._exit(-1)
 
     # open c template and save generated header
     try:
@@ -153,8 +189,12 @@ if __name__ == "__main__":
         c_file.write(c_render_result)
         c_file.close()
         pass
-    except:
-        pass
+    except Exception as e: 
+        print(e)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+        os._exit(-1)
 
     # generate convert bash
     try:
@@ -190,8 +230,12 @@ if __name__ == "__main__":
                 tmp_font_complex.filename = font_name_to_font_str(i["Name"])+".bin"
             font_complex_list.append(tmp_font_complex)
         pass
-    except:
-        pass
+    except Exception as e: 
+        print(e)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+        os._exit(-1)
     
     # open bash template and save generated commands
     try:
@@ -200,13 +244,36 @@ if __name__ == "__main__":
         bash_template_file.close()
         template = Template(bash_template_string)
         bash_render_result = template.render(ConverterCommand=lvgl_font_converter_conf.converter_command,font_complexs=font_complex_list)
-        bash_file = open(os.path.join(args.bash_output,"converter.bash"),"w+")
+        bash_file_name = os.path.join(args.bash_output,"converter.bash")
+        os.makedirs(os.path.dirname(bash_file_name), exist_ok=True)
+        bash_file = open(bash_file_name,"w+")
         bash_file.write(bash_render_result)
         bash_file.close()
+        os.chmod(bash_file_name, 0o766)
         pass
-    except:
+    except Exception as e: 
+        print(e)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+        os._exit(-1)
+    pass
+    # run 
+    try:
+        if args.run_bash:
+            print("Running "+os.path.normpath(bash_file_name)+" ...")
+            subprocess.call(bash_file_name, shell=True)
+            print("\n")
+            sys.stdout.flush()
         pass
+    except Exception as e: 
+        print(e)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+        os._exit(-1)
     pass
 
 
+    
 

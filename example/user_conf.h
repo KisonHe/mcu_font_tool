@@ -3,6 +3,4 @@
 //The file wil not be generated. Need you to change this file
 #include "lvgl.h"
 typedef lv_font_t fonttype;
-#define TOPSTORAGEDEFINE
-#define LASTSTORAGEDEFINE
 #endif
