@@ -6,12 +6,13 @@
 #define KH_STRING_TABLE_STRINGS_H
 #include "user_conf.h"
 #include <stdint.h>
-
+{% for ptr in font_ptrs %}
+extern fonttype* {{ptr}};{% endfor %}
 namespace strings
 {
     typedef struct {
         const char * text;
-        const fonttype * font;
+        fonttype ** fontptr_ptr;
     } kh_textdata_t;
     typedef enum : uint8_t{
         {% for lang in languages %}{{lang}}, {% endfor %} EndOfLanguages
@@ -39,7 +40,7 @@ namespace strings
      * @param id ID of the text
      * @return const fonttype* 
      */
-    const fonttype * kh_fonttool_get_font(ID id);
+    fonttype * kh_fonttool_get_font(ID id);
 
     /**
      * @brief Set the lang. The lib is volatile so saving data to storage yourself
@@ -49,6 +50,11 @@ namespace strings
      */
     int kh_fonttool_set_lang(Language_t lang);
 
+    /**
+     * @brief Load the fonts from fs
+     * 
+     */
+    void kh_load_all_font();
 }
 
 #endif

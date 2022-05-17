@@ -37,6 +37,7 @@ font_ptrs = []
 font_strs = []
 default_lang = ""
 font_text_dict = {} # {"ui":"alltexttogether",etc}
+fs_pre_str = "S:/spiffs/"
 class font_complex_t:
     def __init__(self) -> None:
         self.TTF_Path = ""
@@ -152,12 +153,12 @@ if __name__ == "__main__":
                 liststr = "{\""
                 if ("Content-"+lang) in text:
                     font_text_dict[text["Content-"+lang]["Font"]] = font_text_dict[text["Content-"+lang]["Font"]] + text["Content-"+lang]["Value"]
-                    liststr=liststr+text["Content-"+lang]["Value"]+"\", "
+                    liststr=liststr+text["Content-"+lang]["Value"]+"\", &"
                     liststr=liststr+font_str_to_font_ptr(font_name_to_font_str(text["Content-"+lang]["Font"]))
                     liststr=liststr+"}"
                 elif ("Content-all") in text:
                     font_text_dict[text["Content-all"]["Font"]] = font_text_dict[text["Content-all"]["Font"]] + text["Content-all"]["Value"]
-                    liststr=liststr+text["Content-all"]["Value"]+"\", "
+                    liststr=liststr+text["Content-all"]["Value"]+"\", &"
                     liststr=liststr+font_str_to_font_ptr(font_name_to_font_str(text["Content-all"]["Font"]))
                     liststr=liststr+"}"
                     pass
