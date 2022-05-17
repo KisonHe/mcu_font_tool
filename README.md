@@ -5,10 +5,11 @@ Inspired by lvgl's lv_i18n & t123yh's mcufont-encoder
 It don't work gettext style. You declare before use of text.
 
 ## How to use
-1. Define your text FIRST and translations as `example.yaml` shows.
-2. Run this tool before compile to generate right headers and functions.
-3. Optional, Run this tool to generate list of out put to your font converter like `lv_font_conv`. Now only `lv_font_conv` is supported.
-4. Optional , Run this tool to call the convert and do upload hook stuff etc...
+1. Read the `strings.yaml` in [example](./example) to see how to define texts
+2. Define your text FIRST and translations as `example.yaml` shows.
+3. Run this tool before compile to generate right headers and functions.
+4. Optional, Run this tool to generate list of out put to your font converter like `lv_font_conv`. Now only `lv_font_conv` is supported.
+5. Optional , Run this tool to call the convert and do upload hook stuff etc...
 
 Go to [example](./example) folder for more info
 
@@ -20,11 +21,13 @@ Go to [example](./example) folder for more info
 2. If the translation is not available on the default locale, the text ID will be returned
 
 ## What will this do for you 
-1. Generate a file with needed chars to pass to font generate(lv_font_conv) for you 
-2. Offer function to get text from name
-3. Offer function to get font from name(For now only `lv_font_t * `)
-4. Generate function to load font from 
-5. (Someday)With post upload feature(in pio), auto upload the (spiffs) file to target(esp32)
+1. Read info from config and string yaml files
+2. Generate `stringtable.cpp/h` from [jinja](https://jinja.palletsprojects.com) template
+   1. Get your text from ID
+   2. Get text font from ID
+3. Generate converter commands from template (Optional)
+4. Run commands generated
+5. Run defined upload command
 
 
 ## What this tool will not do for you 
