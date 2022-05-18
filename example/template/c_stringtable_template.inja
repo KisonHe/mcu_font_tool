@@ -6,7 +6,8 @@
 #include <stdint.h>
 #include "esp32-hal-log.h"
 {% for ptr in font_ptrs %}
-fonttype* {{ptr}};{% endfor %}
+LV_FONT_DECLARE({{font_strs[loop.index0]}});
+const fonttype* {{ptr}} = &{{font_strs[loop.index0]}};{% endfor %}
 namespace strings
 {
     Language_t CurrentLanguage = {{default_lang}}; //When generating, set default to first lang
@@ -28,10 +29,10 @@ namespace strings
         return MainData[CurrentLanguage][id].text;
     }
 
-    fonttype * kh_fonttool_get_font(ID id){
+    const fonttype * kh_fonttool_get_font(ID id){
         if (id >= EndOfTexts)
             return nullptr;
-        return *(MainData[CurrentLanguage][id].fontptr_ptr);
+        return (MainData[CurrentLanguage][id].fontptr);
     }
 
     int kh_fonttool_set_lang(Language_t lang){
@@ -41,9 +42,8 @@ namespace strings
         return 0; 
     }
 
-    void kh_load_all_font(){ {% for ptr in font_ptrs %}
-        {{ptr}} = lv_font_load("S:/spiffs/{{font_strs[loop.index0]}}.bin");
-        if ({{ptr}} == nullptr){log_e("Fail to load %s","S:/spiffs/{{font_strs[loop.index0]}}.bin");}{% endfor %}
+    void kh_load_all_font(){
+        return; // for lvgl format fonts are already loaded
     }
   
 }

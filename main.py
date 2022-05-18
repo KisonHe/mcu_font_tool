@@ -29,6 +29,7 @@ import sys
 import subprocess
 #TODO the lvgl format
 #TODO Move default output paths to example. Default should not write higher dirs
+#TODO Support both bin and lvgl format
 languages = []
 ids = []
 fonts = []
@@ -153,12 +154,12 @@ if __name__ == "__main__":
                 liststr = "{\""
                 if ("Content-"+lang) in text:
                     font_text_dict[text["Content-"+lang]["Font"]] = font_text_dict[text["Content-"+lang]["Font"]] + text["Content-"+lang]["Value"]
-                    liststr=liststr+text["Content-"+lang]["Value"]+"\", &"
+                    liststr=liststr+text["Content-"+lang]["Value"]+"\", "
                     liststr=liststr+font_str_to_font_ptr(font_name_to_font_str(text["Content-"+lang]["Font"]))
                     liststr=liststr+"}"
                 elif ("Content-all") in text:
                     font_text_dict[text["Content-all"]["Font"]] = font_text_dict[text["Content-all"]["Font"]] + text["Content-all"]["Value"]
-                    liststr=liststr+text["Content-all"]["Value"]+"\", &"
+                    liststr=liststr+text["Content-all"]["Value"]+"\", "
                     liststr=liststr+font_str_to_font_ptr(font_name_to_font_str(text["Content-all"]["Font"]))
                     liststr=liststr+"}"
                     pass
@@ -228,7 +229,7 @@ if __name__ == "__main__":
                 #todo the file name 
             else:
                 tmp_font_complex.format = "bin" 
-                tmp_font_complex.filename = font_name_to_font_str(i["Name"])+".bin"
+                tmp_font_complex.filename = "src/gui/fonts/"+font_name_to_font_str(i["Name"])+".c"
             font_complex_list.append(tmp_font_complex)
         pass
     except Exception as e: 
