@@ -66,7 +66,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Kison's mcu font tool")
     parser.add_argument("-c","--config",help="Directory of config and strings yaml, default ../mcu_font_config TO main.py if also not found in config",required=False, default=os.path.join(os.path.dirname(__file__),"../mcu_font_config")) 
     parser.add_argument("-t","--template",help="Directory of templates, default ../mcu_font_template TO main.py if also not found in config",required=False, default=os.path.join(os.path.dirname(__file__),"../mcu_font_template")) 
-    parser.add_argument("-o", "--output", help="Directory to Generate header and cpp file, default ../../src/gui TO main.py if also not found in config",required=False,default=os.path.join(os.path.dirname(__file__),"../../src/gui")) 
+    parser.add_argument("-o", "--output", help="Directory to Generate header and cpp file, default ../../src/gui TO main.py if also not found in config",required=False,default=os.path.join(os.path.dirname(__file__),"../src"))
     parser.add_argument("-b", "--bash-output", help="Directory to Generate converter bash file, default ./scripts TO main.py if also not found in config",required=False, default=os.path.join(os.path.dirname(__file__),"./scripts"))
     parser.add_argument("-r", "--run-bash", help="If run the generated converter bash file, default false",required=False, action='store_true', default=False)
     args = parser.parse_args()
@@ -229,7 +229,7 @@ if __name__ == "__main__":
                 #todo the file name 
             else:
                 tmp_font_complex.format = "bin" 
-                tmp_font_complex.filename = "src/gui/fonts/"+font_name_to_font_str(i["Name"])+".c"
+                tmp_font_complex.filename = "User/Src/gui/font/src/"+font_name_to_font_str(i["Name"])+".c"
             font_complex_list.append(tmp_font_complex)
         pass
     except Exception as e: 
