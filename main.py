@@ -210,6 +210,8 @@ if __name__ == "__main__":
                 tmp_font_complex.range_text=""
                 pass
             tmp_font_complex.symbol_text = font_text_dict[i["Name"]] # no need to remove duplicate chars cause lvgl will handle that
+            if (("Symbol" in i) and (i["Symbol"] != None)):
+                tmp_font_complex.symbol_text = tmp_font_complex.symbol_text + i["Symbol"]
             if lvgl_font_converter_conf.subpx == "H":
                 tmp_font_complex.sub_pixel_text = "--lcd"
             elif lvgl_font_converter_conf.subpx == "V":
