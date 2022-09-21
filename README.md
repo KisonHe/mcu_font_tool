@@ -13,6 +13,8 @@ It don't work gettext style. You declare before use of text.
 
 Go to [example](./example) folder for more info
 
+There is also a demo use in https://github.com/KisonHe/at32-gcc-template/, on branch mcu-font-tool-demo
+
 ## Why not lvgl's i18n tool
 - It helps you with the font managing.
 
