@@ -231,7 +231,7 @@ if __name__ == "__main__":
                 #todo the file name 
             else:
                 tmp_font_complex.format = "bin" 
-                tmp_font_complex.filename = "User/Src/gui/font/src/"+font_name_to_font_str(i["Name"])+".c"
+                tmp_font_complex.filename = "gui/font/src/"+font_name_to_font_str(i["Name"])+".c"
             font_complex_list.append(tmp_font_complex)
         pass
     except Exception as e: 
