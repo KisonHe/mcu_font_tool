@@ -16,8 +16,6 @@
 #     └── mcu_font_tool         --> as submodule
 #         ├── main.py 
 
-import fontprocessing
-import endprocessing
 import os
 import os.path
 import argparse
@@ -66,7 +64,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Kison's mcu font tool")
     parser.add_argument("-c","--config",help="Directory of config and strings yaml, default ../mcu_font_config TO main.py if also not found in config",required=False, default=os.path.join(os.path.dirname(__file__),"../mcu_font_config")) 
     parser.add_argument("-t","--template",help="Directory of templates, default ../mcu_font_template TO main.py if also not found in config",required=False, default=os.path.join(os.path.dirname(__file__),"../mcu_font_template")) 
-    parser.add_argument("-o", "--output", help="Directory to Generate header and cpp file, default ../../src/gui TO main.py if also not found in config",required=False,default=os.path.join(os.path.dirname(__file__),"../src"))
+    parser.add_argument("-o", "--output", help="Directory to Generate header and cpp file, default ../../src TO main.py if also not found in config",required=False,default=os.path.join(os.path.dirname(__file__),"../src"))
     parser.add_argument("-b", "--bash-output", help="Directory to Generate converter bash file, default ./scripts TO main.py if also not found in config",required=False, default=os.path.join(os.path.dirname(__file__),"./scripts"))
     parser.add_argument("-r", "--run-bash", help="If run the generated converter bash file, default false",required=False, action='store_true', default=False)
     args = parser.parse_args()
@@ -202,7 +200,8 @@ if __name__ == "__main__":
     try:
         for i in string_yaml_dict["Fonts"]:
             tmp_font_complex = font_complex_t()
-            tmp_font_complex.TTF_Path = i["TTF"]
+            # tmp_font_complex.TTF_Path = i["TTF"]
+            tmp_font_complex.TTF_Path = os.path.join(os. path. dirname(yaml_path), i["TTF"])
             if ("SymbolUnicode" in i):
                 tmp_font_complex.range_text="-r " + i["SymbolUnicode"] + ""
                 pass
@@ -231,7 +230,7 @@ if __name__ == "__main__":
                 #todo the file name 
             else:
                 tmp_font_complex.format = "bin" 
-                tmp_font_complex.filename = "User/Src/gui/font/src/"+font_name_to_font_str(i["Name"])+".c"
+                tmp_font_complex.filename = "src/"+font_name_to_font_str(i["Name"])+".c"
             font_complex_list.append(tmp_font_complex)
         pass
     except Exception as e: 
