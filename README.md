@@ -15,6 +15,20 @@ Go to [example](./example) folder for more info
 
 There is also a demo use in https://github.com/KisonHe/at32-gcc-template/, on branch mcu-font-tool-demo
 
+## Missing Icons
+
+If you use https://fonts.google.com/icons like me, you will notice that the ttf downloaded from google (MaterialIcons-Regular.ttf) is missing sooooooo many chars. 
+
+You can build your own font from svg, and pass the font to this tool. 
+
+```python
+import fontforge
+font = fontforge.font()
+glyph = font.createChar(65, "font1")
+glyph.importOutlines("xxx.svg")
+font.generate("output.ttf")
+```
+
 ## Why not lvgl's i18n tool
 - It helps you with the font managing.
 
